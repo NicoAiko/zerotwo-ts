@@ -19,3 +19,11 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+#Electron-builder output
+/dist_electron
+
+# Log files
+stdout.txt
+error.txt
+warning.txt
