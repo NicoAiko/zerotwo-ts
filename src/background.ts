@@ -59,7 +59,7 @@ app.on('ready', async () => {
     try {
       await installVueDevtools();
     } catch (e) {
-      Log.error('Vue Devtools failed to install:', e.toString());
+      Log.log(Log.getErrorMode(), ['electron', 'main', 'debug'], 'Vue Devtools failed to install:', e.toString());
     }
   }
   createWindow();

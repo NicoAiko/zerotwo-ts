@@ -1,12 +1,19 @@
 import { remote, app } from 'electron';
 import fs from 'fs';
 import { join } from 'lodash';
+import moment from 'moment';
 import path from 'path';
 
 enum Logs {
   STDOUT = 'stdoutLogFileName',
   ERROR = 'errorLogFileName',
   WARNING = 'warningLogFileName',
+}
+
+enum Modes {
+  LOG = 'log',
+  WARNING = 'warn',
+  ERROR = 'error',
 }
 
 interface ILog {
@@ -16,10 +23,10 @@ interface ILog {
 }
 
 class Log {
-  private stdoutLogFileName: string;
-  private errorLogFileName: string;
-  private warningLogFileName: string;
-  private app: Electron.App;
+  private readonly stdoutLogFileName: string;
+  private readonly errorLogFileName: string;
+  private readonly warningLogFileName: string;
+  private readonly app: Electron.App;
 
   constructor(options: ILog) {
     this.stdoutLogFileName = options.stdoutLogFileName;
@@ -32,41 +39,46 @@ class Log {
     this.checkLogPaths();
   }
 
-  public log(...data: any): void {
-    // tslint:disable-next-line no-console
-    console.log(...data);
+  public log(mode: Modes, categories: string[], ...data: any): void {
+    const joinedCategories: string[] = [mode, ...categories];
+    console[mode](joinedCategories, ...data);
 
-    this.writeToLog(Logs.STDOUT, data);
+    let logMode = Logs.STDOUT;
+    switch (mode) {
+      case Modes.ERROR:
+        logMode = Logs.ERROR;
+        break;
+      case Modes.WARNING:
+        logMode = Logs.WARNING;
+        break;
+      default:
+        break;
+    }
+
+    this.writeToLog(logMode, joinedCategories, data);
   }
 
-  public error(...data: any): void {
-    // tslint:disable-next-line no-console
-    console.error(...data);
-
-    this.writeToLog(Logs.ERROR, data);
+  public getLogMode(): Modes {
+    return Modes.LOG;
   }
 
-  public warning(...data: any): void {
-    // tslint:disable-next-line no-console
-    console.warn(...data);
-
-    this.writeToLog(Logs.WARNING, data);
+  public getErrorMode(): Modes {
+    return Modes.ERROR;
   }
 
-  private writeToLog(logFile: Logs, ...data: any) {
-    const currentDate = new Date();
-    const formattedTime = [
-      `${currentDate.getUTCFullYear()}${currentDate.getUTCMonth() + 1}${currentDate.getUTCDate()}`,
-      '/',
-      `${currentDate.getUTCHours()}${currentDate.getUTCMinutes()}${currentDate.getUTCSeconds()}`,
-      ':',
-    ];
-    const formattedLog = `\r\n${join(formattedTime, '')}: ${join(data, '')}`;
-    fs.appendFileSync(this[logFile], formattedLog);
+  public getWarnMode(): Modes {
+    return Modes.WARNING;
+  }
+
+  private writeToLog(logFile: Logs, categories: string[], ...data: any) {
+    const currentDate = moment();
+    const formattedTime = currentDate.format('YYYYMMDD/HHmmss');
+    const formattedLog = `${formattedTime}: [${join(categories)}] ${join(data, '')}\r\n`;
+    fs.appendFileSync(this.getPathOf(logFile), formattedLog);
   }
 
   private getPathOf(logFile: Logs) {
-    const logDir = this.app.getPath('logs');
+    const logDir = this.app.getPath('userData');
 
     return path.join(logDir, this[logFile]);
   }
@@ -74,15 +86,18 @@ class Log {
   private checkLogPaths(): void {
     // Each Log file is created if not yet existing
     if (!fs.existsSync(this.getPathOf(Logs.STDOUT))) {
-      fs.writeFileSync(this.getPathOf(Logs.STDOUT), 'Log started.');
+      fs.writeFileSync(this.getPathOf(Logs.STDOUT), '');
+      this.writeToLog(Logs.STDOUT, ['initialize', 'main'], 'Log started.');
     }
 
     if (!fs.existsSync(this.getPathOf(Logs.ERROR))) {
-      fs.writeFileSync(this.getPathOf(Logs.ERROR), 'Log started.');
+      fs.writeFileSync(this.getPathOf(Logs.ERROR), '');
+      this.writeToLog(Logs.ERROR, ['initialize', 'main'], 'Log started.');
     }
 
     if (!fs.existsSync(this.getPathOf(Logs.WARNING))) {
-      fs.writeFileSync(this.getPathOf(Logs.WARNING), 'Log started.');
+      fs.writeFileSync(this.getPathOf(Logs.WARNING), '');
+      this.writeToLog(Logs.WARNING, ['initialize', 'main'], 'Log started.');
     }
   }
 }
