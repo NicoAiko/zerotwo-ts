@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
-import { userSettingsModule, UserSettings } from './UserSettings';
-import { AppStore, appModule } from './App';
+
+// Custom Stores
+import { appModule, AppStore } from './App';
+import { UserSettings, userSettingsModule } from './UserSettings';
 
 Vue.use(Vuex);
 

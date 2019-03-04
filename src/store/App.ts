@@ -1,4 +1,4 @@
-import { Module, VuexModule, getter, mutation } from 'vuex-class-component';
+import { getter, Module, mutation, VuexModule } from 'vuex-class-component';
 import { version } from '../../package.json';
 
 /**

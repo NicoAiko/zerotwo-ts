@@ -1,7 +1,7 @@
-import { app, protocol, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, Menu, protocol } from 'electron';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
-import macMenu from './macMenu';
 import Log from '../log';
+import macMenu from './macMenu';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 

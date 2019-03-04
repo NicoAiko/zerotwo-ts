@@ -1,4 +1,4 @@
-import { remote, app } from 'electron';
+import { app, remote } from 'electron';
 import fs from 'fs';
 import { join } from 'lodash';
 import moment from 'moment';

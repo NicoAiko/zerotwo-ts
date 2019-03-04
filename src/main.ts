@@ -1,8 +1,20 @@
 import Vue from 'vue';
+import Vuetify from 'vuetify';
+
+// Components
 import App from './App';
+import i18n from './i18n';
 import router from './router';
 import { store } from './store';
-import i18n from './i18n';
+
+// Styles & Fonts
+import '@/assets/scss/extra.scss';
+import '@mdi/font/css/materialdesignicons.css';
+import 'vuetify/src/stylus/app.styl';
+
+Vue.use(Vuetify, {
+  iconfont: 'mdi',
+});
 
 Vue.config.productionTip = false;
 
