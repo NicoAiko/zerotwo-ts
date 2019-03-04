@@ -29,7 +29,7 @@ Electron - Vue.js Anime Tracker
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:9080
+# Open Electron app in development mode
 npm run serve
 
 # build electron application for production
