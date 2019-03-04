@@ -10,7 +10,7 @@ enum Logs {
   WARNING = 'warningLogFileName',
 }
 
-enum Modes {
+enum Severity {
   LOG = 'log',
   WARNING = 'warn',
   ERROR = 'error',
@@ -39,16 +39,16 @@ class Log {
     this.checkLogPaths();
   }
 
-  public log(mode: Modes, categories: string[], ...data: any): void {
-    const joinedCategories: string[] = [mode, ...categories];
-    console[mode](joinedCategories, ...data);
+  public log(severity: Severity, categories: string[], ...data: any): void {
+    const joinedCategories: string[] = [severity, ...categories];
+    console[severity](joinedCategories, ...data);
 
     let logMode = Logs.STDOUT;
-    switch (mode) {
-      case Modes.ERROR:
+    switch (severity) {
+      case Severity.ERROR:
         logMode = Logs.ERROR;
         break;
-      case Modes.WARNING:
+      case Severity.WARNING:
         logMode = Logs.WARNING;
         break;
       default:
@@ -58,16 +58,16 @@ class Log {
     this.writeToLog(logMode, joinedCategories, data);
   }
 
-  public getLogMode(): Modes {
-    return Modes.LOG;
+  public getLogSeverity(): Severity {
+    return Severity.LOG;
   }
 
-  public getErrorMode(): Modes {
-    return Modes.ERROR;
+  public getErrorSeverity(): Severity {
+    return Severity.ERROR;
   }
 
-  public getWarnMode(): Modes {
-    return Modes.WARNING;
+  public getWarnSeverity(): Severity {
+    return Severity.WARNING;
   }
 
   private writeToLog(logFile: Logs, categories: string[], ...data: any) {

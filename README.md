@@ -1,29 +1,47 @@
-# zerotwo-ts
+# ZeroTwo (TypeScript version) (still in Development)
+Electron - Vue.js Anime Tracker
 
-## Project setup
-```
+> Taiga alternative
+
+---
+
+## What is ZeroTwo?
+
+> Welcome to ZeroTwo, the whole new experience of managing the AniList!
+>
+> With this program you will easily add, update or delete Anime from your list!
+>
+> You only have to login to AniList and the fun can begin!",
+
+## *Release will follow...*
+
+## Discord Server
+
+##### Join the ZeroTwo Discord Server!
+
+[<img src="https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg" width="350">](https://discord.gg/sTpR4Gw)
+
+---
+
+#### Short Build Setup
+
+``` bash
+# install dependencies
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
+# serve with hot reload at localhost:9080
 npm run serve
-```
 
-### Compiles and minifies for production
-```
+# build electron application for production
 npm run build
-```
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
+# lint all files in `src/`
 npm run lint
+
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+---
+
+# [LICENSE](LICENSE)
+
+GNU General Public License v3.0
