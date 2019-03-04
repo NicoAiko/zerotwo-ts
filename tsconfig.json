@@ -13,7 +13,8 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "webpack",
     ],
     "paths": {
       "@/*": [
@@ -26,9 +27,11 @@
       "dom.iterable",
       "scripthost"
     ],
-    "plugins": [{
-      "name": "typescript-tslint-plugin"
-    }]
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ]
   },
   "include": [
     "src/**/*.ts",

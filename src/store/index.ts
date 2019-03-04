@@ -13,10 +13,7 @@ export const store = new Vuex.Store({
     appModule,
   },
   // To keep mutated changes in local Storage
-  plugins: [new VuexPersistence({
-    // We don't need to persist the app module at this point.
-    modules: ['userSettingsModule'],
-  }).plugin],
+  plugins: [new VuexPersistence().plugin],
 });
 
 /**
