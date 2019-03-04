@@ -1,7 +1,15 @@
 import { remote } from 'electron';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { appStore } from './store';
-@Component
+
+// Components
+import Navigation from './components/Navigation';
+
+@Component({
+  components: {
+    Navigation,
+  },
+})
 export default class App extends Vue {
   public created() {
     if (!this.locale) {
@@ -11,13 +19,12 @@ export default class App extends Vue {
 
   public render() {
     return (
-      <div id="app">
-        <div id="nav">
-          <router-link to="/">Home</router-link> |
-          <router-link to="/about">About</router-link>
-        </div>
-        <router-view/>
-      </div>
+      <v-app dark id="app">
+        <main>
+          <Navigation />
+          <router-view/>
+        </main>
+      </v-app>
     );
   }
 
@@ -25,6 +32,11 @@ export default class App extends Vue {
     return appStore.language;
   }
 
+  /**
+   * @description Watches changes of locale
+   * @see {@link store/App.ts}
+   * @param {string | undefined} newLocale
+   */
   @Watch('locale')
   public localeChanged(newLocale: string | undefined) {
     this.$i18n.locale = newLocale ? newLocale : this.$i18n.fallbackLocale;

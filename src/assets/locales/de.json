@@ -1,6 +1,6 @@
 {
-  "originalReading": "English",
-  "englishReading": "English",
+  "originalReading": "Deutsch",
+  "englishReading": "German",
   "system": {
     "modules": {
       "aniList": "AniList"

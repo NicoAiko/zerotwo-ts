@@ -10,7 +10,7 @@ import { store } from './store';
 // Styles & Fonts
 import '@/assets/scss/extra.scss';
 import '@mdi/font/css/materialdesignicons.css';
-import 'vuetify/src/stylus/app.styl';
+import 'vuetify/dist/vuetify.min.css';
 
 Vue.use(Vuetify, {
   iconfont: 'mdi',
