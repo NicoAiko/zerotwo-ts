@@ -11,6 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "types": [
       "webpack-env"
     ],
@@ -24,7 +25,10 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "plugins": [{
+      "name": "typescript-tslint-plugin"
+    }]
   },
   "include": [
     "src/**/*.ts",

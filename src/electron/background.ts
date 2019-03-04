@@ -1,9 +1,8 @@
-import { app, protocol, BrowserWindow } from 'electron';
-import {
-  createProtocol,
-  installVueDevtools,
-} from 'vue-cli-plugin-electron-builder/lib';
-import Log from './log';
+import { app, protocol, BrowserWindow, Menu } from 'electron';
+import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
+import macMenu from './macMenu';
+import Log from '../log';
+
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -26,6 +25,11 @@ function createWindow() {
     createProtocol('app');
     // Load the index.html when not in development
     win.loadURL('app://./index.html');
+  }
+
+  // Add Menu structure to mac users
+  if (process.platform === 'darwin') {
+    Menu.setApplicationMenu(macMenu());
   }
 
   win.on('closed', () => {
