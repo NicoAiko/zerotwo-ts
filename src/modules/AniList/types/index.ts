@@ -1,4 +1,15 @@
 /**
+ * @enum AniListScoreFormat contains the scoring systems of AniList
+ */
+export enum AniListScoreFormat {
+  POINT_100 = 'POINT_100',
+  POINT_10_DECIMAL = 'POINT_10_DECIMAL',
+  POINT_10 = 'POINT_10',
+  POINT_5 = 'POINT_5',
+  POINT_3 = 'POINT_3',
+}
+
+/**
  * @interface IAniListStreamingEpisode
  * @description Contains data for streaming services
  */
@@ -316,6 +327,25 @@ export interface IAniListUserStats {
 }
 
 /**
+ * @interface IAniListUserMediaListOptions
+ * @description contains the user's preferences for their lists
+ */
+export interface IAniListUserMediaListOptions {
+  /**
+   * @var {string} scoreFormat contains the user's preferred scoring system format
+   */
+  scoreFormat: string;
+}
+
+/**
+ * @interface IAniListUserOptions
+ * @description contains the user's general AniList options
+ */
+export interface IAniListUserOptions {
+  displayAdultContent: boolean;
+}
+
+/**
  * @interface IAniListUser
  * @description contains information about the user
  */
@@ -336,6 +366,14 @@ export interface IAniListUser {
    * @var {string} bannerImage contains the URL to the user's banner image
    */
   bannerImage: string;
+  /**
+   * @var {IAniListUserMediaListOptions} mediaListOptions contains the user's media list options
+   */
+  mediaListOptions: IAniListUserMediaListOptions;
+  /**
+   * @var {IAniListUserOptions} options contains the user's general settings
+   */
+  options: IAniListUserOptions;
   /**
    * @var {IAniListUserStats} stats contains the user's stats information
    */

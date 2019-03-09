@@ -1,8 +1,15 @@
 import { action, getter, Module, mutation, VuexModule } from 'vuex-class-component';
 
 // Custom components
+import Log from '@/log';
 import API from '@/modules/AniList/API';
-import { AniListType, IAniListMediaListCollection, IAniListSession } from '@/modules/AniList/types';
+import {
+  AniListScoreFormat,
+  AniListType,
+  IAniListMediaListCollection,
+  IAniListSession,
+  IAniListUser,
+} from '@/modules/AniList/types';
 
 @Module()
 export class AniListStore extends VuexModule {
@@ -17,9 +24,15 @@ export class AniListStore extends VuexModule {
       },
       bannerImage: '',
       id: -1,
+      mediaListOptions: {
+        scoreFormat: AniListScoreFormat.POINT_100,
+      },
       name: '',
       stats: {
         watchedTime: 0,
+      },
+      options: {
+        displayAdultContent: false,
       },
     },
   };
@@ -39,19 +52,37 @@ export class AniListStore extends VuexModule {
     return this._session;
   }
 
-  @mutation
-  public setAniListData(data: IAniListMediaListCollection) {
-    this._aniListData = data;
-  }
-
   @action()
   public async refreshAniListData(): Promise<void> {
-    if (!this.session.accessToken) {
+    if (!this.session.accessToken || !this.session.user.name) {
       return;
     }
 
-    // TODO: Add AniList API calls here
-    const userList = await API.getUserList(this.session.user.name, AniListType.ANIME);
-    this.setAniListData(userList);
+    try {
+      const userName: string = this.session.user.name;
+      const accessToken = this.session.accessToken;
+
+      const user = await API.getUser(accessToken);
+      const userList = await API.getUserList(userName, AniListType.ANIME);
+
+      if (userList && user) {
+        this.setAniListData(userList);
+        this.setUser(user);
+      }
+    } catch (error) {
+      Log.log(Log.getErrorSeverity(), ['aniList', 'store', 'refreshAniListData'], error);
+    }
+  }
+
+  @mutation
+  protected setUser(data: IAniListUser) {
+    this._session.user = data;
+  }
+
+  @mutation
+  protected setAniListData(data: IAniListMediaListCollection) {
+    this._aniListData = data;
   }
 }
+
+export const aniListModule = AniListStore.ExtractVuexModule(AniListStore);
