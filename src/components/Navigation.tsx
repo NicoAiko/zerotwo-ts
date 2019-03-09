@@ -15,8 +15,8 @@ export default class Navigation extends Vue {
         <v-spacer></v-spacer>
 
         <v-toolbar-items>
-          <v-btn flat exact to={{ name: 'Home' }}>Home</v-btn>
-          <v-btn flat exact to={{ name: 'About' }}>About</v-btn>
+          <v-btn flat exact to={{ name: 'Home' }}>{this.$t('menu.home')}</v-btn>
+          <v-btn flat exact to={{ name: 'About' }}>{this.$t('menu.about')}</v-btn>
         </v-toolbar-items>
 
       </v-toolbar>

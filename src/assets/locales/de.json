@@ -5,5 +5,9 @@
     "modules": {
       "aniList": "AniList"
     }
+  },
+  "menu": {
+    "home": "Home",
+    "about": "Über ZeroTwo"
   }
 }

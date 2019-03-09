@@ -1,5 +1,6 @@
 import { remote } from 'electron';
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { validLanguageCodes } from './i18n';
 import { appStore } from './store';
 
 // Components
@@ -14,6 +15,8 @@ export default class App extends Vue {
   public created() {
     if (!this.locale) {
       appStore.setLanguage(remote.app.getLocale());
+    } else {
+      this.$i18n.locale = this.locale;
     }
   }
 
@@ -39,6 +42,8 @@ export default class App extends Vue {
    */
   @Watch('locale')
   public localeChanged(newLocale: string | undefined) {
-    this.$i18n.locale = newLocale ? newLocale : this.$i18n.fallbackLocale;
+    this.$i18n.locale = newLocale && validLanguageCodes.includes(newLocale)
+      ? newLocale
+      : this.$i18n.fallbackLocale;
   }
 }
