@@ -292,3 +292,71 @@ export interface IAniListMediaListCollection {
    */
   lists: IAniListList[];
 }
+
+/**
+ * @interface IAniListUserAvatar
+ * @description contains the user's avatar
+ */
+export interface IAniListUserAvatar {
+  /**
+   * @var {string} medium contains the URL to the user's avatar (medium-size)
+   */
+  medium: string;
+}
+
+/**
+ * @interface IAniListUserStats
+ * @description contains the user's stats
+ */
+export interface IAniListUserStats {
+  /**
+   * @var {number} watchedTime contains the amount of minutes the user has watched anime
+   */
+  watchedTime: number;
+}
+
+/**
+ * @interface IAniListUser
+ * @description contains information about the user
+ */
+export interface IAniListUser {
+  /**
+   * @var {number} id contains the ID of the user
+   */
+  id: number;
+  /**
+   * @var {string} name contains the user's name
+   */
+  name: string;
+  /**
+   * @var {IAniListUserAvatar} avatar contains the user's avatar information
+   */
+  avatar: IAniListUserAvatar;
+  /**
+   * @var {string} bannerImage contains the URL to the user's banner image
+   */
+  bannerImage: string;
+  /**
+   * @var {IAniListUserStats} stats contains the user's stats information
+   */
+  stats: IAniListUserStats;
+}
+
+/**
+ * @interface IAniListSession
+ * @description contains the user's log in session information
+ */
+export interface IAniListSession {
+  /**
+   * @var {string} accessToken contains the access token of the current session
+   */
+  accessToken: string;
+  /**
+   * @var {string} authorizationToken contains the authorization token of the user with ZeroTwo
+   */
+  authorizationToken: string;
+  /**
+   * @var {IAniListUser} user contains the data of the currently logged in user
+   */
+  user: IAniListUser;
+}

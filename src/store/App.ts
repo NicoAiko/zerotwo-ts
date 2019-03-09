@@ -6,8 +6,8 @@ import { version } from '../../package.json';
  */
 @Module()
 export class AppStore extends VuexModule {
-  private versionNumber: string = version;
-  private locale?: string = undefined;
+  private _version: string = version;
+  private _locale?: string = undefined;
 
   /**
    * @method AppStore.version
@@ -15,7 +15,7 @@ export class AppStore extends VuexModule {
    */
   @getter
   public get version(): string {
-    return this.versionNumber;
+    return this._version;
   }
 
   /**
@@ -24,12 +24,12 @@ export class AppStore extends VuexModule {
    */
   @getter
   public get language(): string | undefined {
-    return this.locale;
+    return this._locale;
   }
 
   @mutation
   public setLanguage(language: string) {
-    this.locale = language;
+    this._locale = language;
   }
 }
 

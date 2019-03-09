@@ -16,6 +16,7 @@
     "object-literal-sort-keys": false,
     "ordered-imports": true,
     "quotemark": [true, "single", "jsx-double"],
+    "variable-name": [true, "check-format", "allow-leading-underscore"],
     "whitespace": [
       true,
       "check-branch",
