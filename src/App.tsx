@@ -1,7 +1,7 @@
 import { remote } from 'electron';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { validLanguageCodes } from './i18n';
-import { appStore } from './store';
+import { aniListStore, appStore } from './store';
 
 // Components
 import Navigation from './components/Navigation';
@@ -17,6 +17,10 @@ export default class App extends Vue {
       appStore.setLanguage(remote.app.getLocale());
     } else {
       this.$i18n.locale = this.locale;
+    }
+
+    if (aniListStore.isAuthenticated) {
+      aniListStore.refreshAniListData();
     }
   }
 

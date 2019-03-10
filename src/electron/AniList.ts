@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron';
 import request from 'request';
-import { parse } from 'url';
+import { format, parse } from 'url';
 import Log from '../log';
 
 const oauthConfig = {
@@ -15,17 +15,20 @@ const oauthConfig = {
 const windowParams: Electron.BrowserWindowConstructorOptions = {
   alwaysOnTop: true,
   autoHideMenuBar: true,
-  webPreferences: { nodeIntegration: false },
+  webPreferences: {
+    nodeIntegration: false,
+    devTools: false,
+    webSecurity: false,
+  },
   show: false,
 };
 
 ipcMain.on('aniListOAuth', (event: any, action: string) => {
   if (action === 'getToken') {
     const redirectUri = encodeURIComponent(oauthConfig.redirectUri);
-    const url = `${oauthConfig.authorizationUrl}?client_id=${oauthConfig.clientId}&response_type=code&redirect_uri=${redirectUri}`; // tslint:disable-line max-line-length
+    const url = format(`${oauthConfig.authorizationUrl}?client_id=${oauthConfig.clientId}&response_type=code&redirect_uri=${redirectUri}`); // tslint:disable-line max-line-length
 
     const window = new BrowserWindow(windowParams);
-    window.webContents.openDevTools();
     window.loadURL(url);
     window.once('ready-to-show', () => {
       window.show();

@@ -14,7 +14,19 @@ let win: BrowserWindow | null;
 protocol.registerStandardSchemes(['app'], { secure: true });
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600 });
+  win = new BrowserWindow({
+    width: 1280,
+    minWidth: 1280,
+    height: 720,
+    minHeight: 720,
+    useContentSize: true,
+    vibrancy: 'ultra-dark',
+    show: false,
+    webPreferences: {
+      nodeIntegrationInWorker: true,
+      webSecurity: false,
+    },
+  });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -32,6 +44,11 @@ function createWindow() {
   if (process.platform === 'darwin') {
     Menu.setApplicationMenu(macMenu());
   }
+
+  win.on('ready-to-show', () => {
+    (win as BrowserWindow).show();
+    (win as BrowserWindow).focus();
+  });
 
   win.on('closed', () => {
     win = null;
