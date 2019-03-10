@@ -390,10 +390,6 @@ export interface IAniListSession {
    */
   accessToken: string;
   /**
-   * @var {string} authorizationToken contains the authorization token of the user with ZeroTwo
-   */
-  authorizationToken: string;
-  /**
    * @var {IAniListUser} user contains the data of the currently logged in user
    */
   user: IAniListUser;

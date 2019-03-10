@@ -17,7 +17,6 @@ export class AniListStore extends VuexModule {
   private _refreshRate: number = 15;
   private _session: IAniListSession = {
     accessToken: '',
-    authorizationToken: '',
     user: {
       avatar: {
         medium: '',
@@ -52,35 +51,50 @@ export class AniListStore extends VuexModule {
     return this._session;
   }
 
+  @getter
+  public get isAuthenticated(): boolean {
+    return !!this._session.accessToken;
+  }
+
   @action()
   public async refreshAniListData(): Promise<void> {
-    if (!this.session.accessToken || !this.session.user.name) {
+    if (!this.session.accessToken) {
       return;
     }
 
     try {
-      const userName: string = this.session.user.name;
       const accessToken = this.session.accessToken;
-
       const user = await API.getUser(accessToken);
+
+      const userName = (user as IAniListUser).name;
       const userList = await API.getUserList(userName, AniListType.ANIME);
 
       if (userList && user) {
-        this.setAniListData(userList);
-        this.setUser(user);
+        this._setAniListData(userList);
+        this._setUser(user);
       }
     } catch (error) {
       Log.log(Log.getErrorSeverity(), ['aniList', 'store', 'refreshAniListData'], error);
     }
   }
 
+  @action()
+  public async setSession(accessToken: string): Promise<void> {
+    this._setSession(accessToken);
+  }
+
   @mutation
-  protected setUser(data: IAniListUser) {
+  protected _setSession(accessToken: string) {
+    this._session.accessToken = accessToken;
+  }
+
+  @mutation
+  protected _setUser(data: IAniListUser) {
     this._session.user = data;
   }
 
   @mutation
-  protected setAniListData(data: IAniListMediaListCollection) {
+  protected _setAniListData(data: IAniListMediaListCollection) {
     this._aniListData = data;
   }
 }

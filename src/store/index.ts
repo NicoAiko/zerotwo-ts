@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
@@ -33,3 +34,8 @@ export const appStore = AppStore.CreateProxy(store, AppStore);
  * @module AniListStore This module contains all data concerning AniList
  */
 export const aniListStore = AniListStore.CreateProxy(store, AniListStore);
+
+ipcRenderer.on('aniListOAuthReply', (event: any, accessToken: string) => {
+  aniListStore.setSession(accessToken);
+  aniListStore.refreshAniListData();
+});

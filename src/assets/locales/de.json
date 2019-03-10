@@ -2,12 +2,25 @@
   "originalReading": "Deutsch",
   "englishReading": "German",
   "system": {
+    "actions": {
+      "login": "Login"
+    },
     "modules": {
       "aniList": "AniList"
+    },
+    "settings": {
+      "appSettings": {
+        "chooseLanguage": "Sprache wählen"
+      },
+      "menu": {
+        "about": "Über ZeroTwo",
+        "aniList": "AniList",
+        "appSettings": "App-Einstellungen"
+      }
     }
   },
   "menu": {
     "home": "Home",
-    "about": "Über ZeroTwo"
+    "settings": "Einstellungen"
   }
 }

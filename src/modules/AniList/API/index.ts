@@ -8,7 +8,7 @@ const axios: AxiosInstance = Axios.create({
   baseURL: 'https://graphql.anilist.co/',
   timeout: 60000,
   headers: {
-    'Access-Origin-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
@@ -18,7 +18,18 @@ const axios: AxiosInstance = Axios.create({
 import getUser from './queries/getUser.graphql';
 import getUserList from './queries/getUserList.graphql';
 
+/**
+ * @class AniListAPI
+ * @description Contains only static functions to connect to AniList's API
+ */
 export default class AniListAPI {
+  /**
+   * @function getUserList
+   * @static
+   * @param {string} userName contains the name of the user
+   * @param {AniListType} type contains the type of media
+   * @returns {Promise<IAniListMediaListCollection | void>} User's Media list collection or nothing
+   */
   public static async getUserList(userName: string, type: AniListType):
   Promise<IAniListMediaListCollection | void> {
     try {
@@ -38,6 +49,12 @@ export default class AniListAPI {
     return;
   }
 
+  /**
+   * @function getUser
+   * @static
+   * @param {string} accessToken contains the access token to use AniList's API
+   * @returns {Promise<IAniListUser | void>} User's data or nothing
+   */
   public static async getUser(accessToken: string): Promise<IAniListUser | void> {
     try {
       const headers = { Authorization: `Bearer ${accessToken}` };
@@ -51,5 +68,10 @@ export default class AniListAPI {
     return;
   }
 
+  /**
+   * @constructor
+   * @private
+   * @description Empty private constructor
+   */
   private constructor() {}
 }
