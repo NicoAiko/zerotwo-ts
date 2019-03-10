@@ -4,7 +4,7 @@ import { format, parse } from 'url';
 import Log from '../log';
 
 const oauthConfig = {
-  clientId: process.env.VUE_APP_CLIENT_ID || '533',
+  clientId: process.env.VUE_APP_CLIENT_ID,
   clientSecret: process.env.VUE_APP_CLIENT_SECRET,
   authorizationUrl: 'https://anilist.co/api/v2/oauth/authorize',
   tokenUrl: 'https://anilist.co/api/v2/oauth/token',

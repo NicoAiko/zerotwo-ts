@@ -14,6 +14,7 @@ import 'vuetify/dist/vuetify.min.css';
 
 Vue.use(Vuetify, {
   iconfont: 'mdi',
+  lang: { t: (key: string, ...params: any) => i18n.t(key, params) },
 });
 
 Vue.config.productionTip = false;

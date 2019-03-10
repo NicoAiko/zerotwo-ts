@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, shell } from 'electron';
 import { map } from 'lodash';
 import { TranslateResult } from 'vue-i18n';
 import { Component, Vue } from 'vue-property-decorator';
@@ -14,7 +14,10 @@ interface ISettingTab {
 
 @Component
 export default class Settings extends Vue {
-  private _locale: string = appStore.language as string;
+  private _locale: string = '';
+  private githubPage: URL = new URL('https://github.com/nicoaiko/zerotwo');
+  private discordPage: URL = new URL('https://discord.gg/sTpR4Gw');
+  private zeroTwoPage: URL = new URL('https://www.zerotwo.org');
 
   /**
    * @method render renders the Component
@@ -32,6 +35,7 @@ export default class Settings extends Vue {
       <v-tabs-items>
         {this.appSettingsTab}
         {this.aniListTab}
+        {this.aboutTab}
       </v-tabs-items>
     );
 
@@ -47,6 +51,14 @@ export default class Settings extends Vue {
         </v-card>
       </v-content>
     );
+  }
+
+  /**
+   * @method created is being called before mount
+   * @protected
+   */
+  protected created(): void {
+    this._locale = appStore.language as string;
   }
 
   /**
@@ -106,8 +118,6 @@ export default class Settings extends Vue {
   }
 
   private get aniListTab() {
-    const redirectUrl = encodeURIComponent('http://localhost/');
-    const authUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=533&response_type=code&redirect_uri=${redirectUrl}`; // tslint:disable-line max-line-length
     const authenticationLayout = (
       <v-layout fill-height justify-center align-center>
         <v-btn color="primary" onclick={this.loginToAniList}>
@@ -121,6 +131,38 @@ export default class Settings extends Vue {
         <v-card flat>
           <v-container fluid>
             {!aniListStore.isAuthenticated ? authenticationLayout : ''}
+          </v-container>
+        </v-card>
+      </v-tab-item>
+    );
+  }
+
+  private get aboutTab() {
+    return (
+      <v-tab-item key="about">
+        <v-card flat>
+          <v-container fluid>
+            <v-layout align-center justify-center row wrap>
+              <v-flex xs12>
+                <h2 class="display-3 text-xs-center">{this.$t('system.settings.aboutZeroTwo.version')}</h2>
+                <h3 class="display-2 text-xs-center">{this.currentAppVersion}</h3>
+              </v-flex>
+              <v-flex xs4>
+                <a href="#" class="headline" onclick={this.openGitHub}>
+                  <v-img src={require('@/assets/logos/github-logo.png')} alt="GitHub" />
+                </a>
+              </v-flex>
+              <v-flex xs4>
+                <a href="#" class="headline" onclick={this.openDiscord}>
+                  <v-img src={require('@/assets/logos/discord-blurple-logo.png')} alt="Discord" />
+                </a>
+              </v-flex>
+              <v-flex xs4>
+                <a href="#" class="headline" onclick={this.openZeroTwo}>
+                  <v-img src={require('@/assets/logos/ZeroTwoAppIcon_1024.png')} alt="ZeroTwo" />
+                </a>
+              </v-flex>
+            </v-layout>
           </v-container>
         </v-card>
       </v-tab-item>
@@ -143,11 +185,22 @@ export default class Settings extends Vue {
     }
   }
 
-  /**
-   * @method created is being called before mount
-   * @private
-   */
-  private created(): void {
-    this._locale = appStore.language as string;
+  private openGitHub(event: MouseEvent) {
+    shell.openExternal(this.githubPage.toString());
+    event.preventDefault();
+  }
+
+  private openDiscord(event: MouseEvent) {
+    shell.openExternal(this.discordPage.toString());
+    event.preventDefault();
+  }
+
+  private openZeroTwo(event: MouseEvent) {
+    shell.openExternal(this.zeroTwoPage.toString());
+    event.preventDefault();
+  }
+
+  private get currentAppVersion(): string {
+    return appStore.version;
   }
 }
